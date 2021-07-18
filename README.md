@@ -448,6 +448,10 @@ A not even close to exhaustive list on what's possible...
 
 - Handle permissions directly in the database, with multiple users, and have multiple schemas or databases to separate tables
 
+. . .
+
+- Related tools that give you cool functionality on top of Postgres (e.g. PostGraphile or Hasura, which let you generate a GraphQL API on top of your database)
+
 See Appendix for more of these examples (like how someone basically built something like Google Maps routing in Postgres).
 
 ## There's a lot of basics we didn't cover on these slides
@@ -527,7 +531,7 @@ Installing and Running Metabase:
 
 ## Examples
 
-<https://github.com/buzzwordlabs/foodfeed-public/tree/main/server/migrations/committed> (My old company's project, we open-sourced all our code when shutting it down)
+<https://github.com/buzzwordlabs/foodfeed-public/tree/main/server/migrations/committed> (Notice all the migrations have camelcased columns. This is a tradeoff we made working with TypeScript because everything in JavaScript is camelcased. More tedious to write SQL queries, easier to use in your backend code. All columns and usages of those columns in queries need to be double quoted so that SQL doesn't automatically lowercase it.)
 
 ## Indexes
 
@@ -573,6 +577,10 @@ Installing and Running Metabase:
 <https://github.com/graphile/migrate> I have tried several migration tools. This is the best one I've found for getting started, even for growing companies!
 
 <https://github.com/dhamaniasad/awesome-postgres>
+
+<https://www.graphile.org/postgraphile/> Generate GraphQL API on top of PostgreSQL database
+
+<https://hasura.io/> Generate GraphQL API on top of PostgreSQL database
 
 ## Misc
 
