@@ -33,6 +33,10 @@ To showcase some basic database operations.
 
 Show some more cool advanced stuff that is possible, but I will hand-wave a bit as there is too much to cover. I will leave it to you all to take a look at the resources in my appendix.
 
+. . .
+
+Give you a starting point, not make you an expert.
+
 ## What is a Database
 
 . . .
@@ -79,15 +83,17 @@ Messages from loved ones
 
 . . .
 
-McDonalds locations where the ice cream machine works (h/t <https://mcbroken.com/>)
+McDonalds locations where the ice cream machine works
 
-## Why is this important to get storing data right?
+(h/t <https://mcbroken.com/>)
+
+## Why is it important to get data storage right?
 
 May have extremely sensitive or vulnerable data
 
-If you get it wrong, you may lose important data
+If you get it wrong, you may lose important data or have incorrect data
 
-Data is a set of facts. It makes it harder for you to make decisions if your data is wrong
+Data is a set of facts. It makes it harder for you to make decisions or automate things if your data is wrong
 
 ## Don't ignore the database
 
@@ -121,7 +127,7 @@ _Thanks Wikipedia_
 
 All you need to know for now is:
 
- - Postgres is free to use
+ - Postgres is free to use and is open-source
  - Postgres is an application that can hold multiple databases
  - Postgres is a "relational" database management system and supports something called SQL
 
@@ -135,7 +141,7 @@ Following the relational model proposed by Edgar Codd in 1970.
 
 ## How is data stored in SQL?
 
-Data is stored in rows and columns.
+Data is stored in tables with rows and columns.
 
 Ever seen a spreadsheet? Just like that! A bit more complicated though..
 
@@ -143,17 +149,9 @@ Ever seen a spreadsheet? Just like that! A bit more complicated though..
 
 You need to know 5 operations.
 
-CREATE
+CREATE, INSERT, SELECT, UPDATE, DELETE
 
-INSERT
-
-SELECT
-
-UPDATE
-
-DELETE
-
-Bottom 4 are often called (CRUD - Create, Read, Update, Delete)
+Last 4 are often called (CRUD - Create, Read, Update, Delete)
 
 The official categories/names for these operations can be found in the Terminology Appendix.
 
@@ -169,27 +167,27 @@ CREATE DATABASE explorehacks2021;
 
 ~~~~~{.sql}
 CREATE TABLE IF NOT EXISTS users (
- id serial PRIMARY KEY,
- first_name text,
- last_name text,
- email text,
- password text
+    id serial PRIMARY KEY,
+    first_name text,
+    last_name text NOT NULL,
+    email text NOT NULL UNIQUE,
+    password text NOT NULL
 );
 ~~~~~
 
 SQL is NOT cAsE-SeNsItIvE. I uppercase keywords to make them easier to see.
 
-Syntax for the columns are name of column, followed by the data type.
+Syntax for the column definitions are _<column_name>_ _<data_type>_ _<other_options>_. It can get more sophisticated than this but we will start here.
 
 ## Let's run it!
 
 ~~~~~{.sql .sql_eval}
 CREATE TABLE IF NOT EXISTS users (
- id serial PRIMARY KEY,
- first_name text,
- last_name text NOT NULL,
- email text NOT NULL UNIQUE,
- password text NOT NULL
+    id serial PRIMARY KEY,
+    first_name text,
+    last_name text NOT NULL,
+    email text NOT NULL UNIQUE,
+    password text NOT NULL
 );
 ~~~~~
 
@@ -199,11 +197,19 @@ Congrats! We just created our first table.
 
 The syntax is _INSERT INTO_, followed by parenthesized list of columns, _VALUES_, followed by data in the same order as the columns.
 
+Notice whitespace doesn't matter. It might be easier to read this way.
+
 ~~~~~{.sql .sql_eval}
-INSERT INTO users (first_name, last_name, email, password) VALUES ('ani', 'ravi', 'ani@todo.com', 'NEVER DO THIS') RETURNING *;
+INSERT INTO users (first_name, last_name, email, password)
+VALUES ('ani', 'ravi', 'ani@todo.com', 'NEVER DO THIS')
+RETURNING *;
+
+INSERT INTO users (first_name, last_name, email, password)
+VALUES ('Jane', 'Doe', 'jane@doe.com', 'NEVER DO THIS')
+RETURNING *;
 ~~~~~
 
-You do not need the _RETURNING *_ in the query. That is just so we can view the data after it's inserted.
+You do not need the _RETURNING_ _\*_ in the query. That is just so we can view the data after it's inserted.
 
 By default, postgres will only show you the number of rows inserted, not what was inserted.
 
@@ -213,7 +219,7 @@ Never, ever, store passwords in plaintext like we did on the last slide.
 
 Always hash your passwords in the application code or using database functions (application code is preferred).
 
-Some popular hashing algorithms are _BCrypt_ and _Argon2_. Most languages have libraries that can do this for you given a plain string.
+Some popular hashing algorithms are _BCrypt_ and _Argon2_. Most languages have libraries that can do this for you given a string.
 
 ## Now let's select the rows we just inserted.
 
@@ -261,7 +267,7 @@ UPDATE users SET first_name = 'Ani' WHERE id = 1;
 ## Delete me!
 
 ~~~~~{.sql .sql_eval}
-DELETE users WHERE id = 1;
+DELETE FROM users WHERE id = 1;
 ~~~~~
 
 Never delete without a where clause. It will delete every row in that table.
@@ -272,11 +278,11 @@ If you want to get rid of the table altogether, you can use _DROP TABLE <table_n
 
 ## Let's create one more table that references the users table
 
-Notice the REFERENCES keyword. This creates a _foreign key_.
-
 ~~~~~{.sql .sql_eval}
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 ~~~~~
+
+Notice the REFERENCES keyword. This creates a _foreign key_.
 
 ~~~~~{.sql .sql_eval}
 CREATE TABLE books (
@@ -293,15 +299,17 @@ Similar to a spreadsheet, instead of having to copy information from different r
 
 . . .
 
-It is considered _good database design practice_ to use foreign keys to refer to data, rather than copying data over to one table.
+It is considered _good database design practice_ to use foreign keys to refer to data, rather than repeating data.
 
 . . .
 
 This is called _normalization_ (splitting out common data pieces into their own tables, and not duplicating it across tables).
 
-See appendix for more.
+See appendix for more on normalization rules and the different _normal forms_.
 
 ## Let's insert a row into the books table.
+
+Notice we are not inserting the id ourselves. The database is doing it for us because we defined the default.
 
 ~~~~~{.sql .sql_eval}
 INSERT INTO books (user_id) VALUES (1);
@@ -318,11 +326,11 @@ If you get your constraints correct, then the database can prevent us from makin
 
 It also makes it easier for anyone looking to know how your data is structured.
 
+. . .
+
 I cannot describe how valuable this is in production when users will break your application in every which way.
 
 ## Let's insert a row into the books table (correctly this time).
-
-Notice whitespace doesn't matter. It might be easier to read this way.
 
 ~~~~~{.sql .sql_eval}
 INSERT INTO books (user_id, title)
@@ -396,7 +404,8 @@ There are many different types of joins, to join tables in different ways. I'd
 Here's a small taste of what you can do.
 
 ~~~~~{.sql .sql_eval}
-SELECT u.id, u.first_name AS "First Name", b.title AS "Book Title" FROM users u
+SELECT u.id, u.first_name AS "First Name", b.title AS "Book Title"
+FROM users u
 JOIN users_books ub ON u.id=ub.user_id
 JOIN books b ON b.id=ub.book_id;
 ~~~~~
@@ -413,7 +422,7 @@ ALTER TABLE books DROP COLUMN user_id;
 
 A not even close to exhaustive list on what's possible...
 
-- Can handle JSON data natively
+- Can handle JSON data natively (can query it, update it, index on it, and much more)
 
 . . .
 
@@ -430,6 +439,14 @@ A not even close to exhaustive list on what's possible...
 . . .
 
 - Can handle geospatial data, being able to take a latitude/longitude and do queries on it, such as "find me the nearest coffee shop from my location" (directly in Postgres!)
+
+. . .
+
+- ACID compliant, has transactions (incredibly valuable, we use this everywhere), and has MVCC (Multi-Version Concurrency Control)
+
+. . .
+
+- Handle permissions directly in the database, with multiple users, and have multiple schemas or databases to separate tables
 
 See Appendix for more of these examples (like how someone basically built something like Google Maps routing in Postgres).
 
@@ -488,7 +505,7 @@ DROP DATABASE explorehacks2021;
 Installing Postgres:
 <https://www.postgresqltutorial.com/install-postgresql/>
 
-Installing and Running metabase:
+Installing and Running Metabase:
 
 <https://www.metabase.com/docs/latest/operations-guide/running-the-metabase-jar-file.html>
 
@@ -503,6 +520,10 @@ Installing and Running metabase:
 <https://www.sisense.com/blog/sql-query-order-of-operations/> Explains which order the keywords are evaluated in.
 
 <https://www.guru99.com/database-normalization.html> Normalization
+
+<https://retool.com/blog/whats-an-acid-compliant-database/> ACID
+
+<https://devcenter.heroku.com/articles/postgresql-concurrency> MVCC
 
 ## Examples
 
@@ -544,7 +565,9 @@ Installing and Running metabase:
 ## Tools/Software
 
 <https://www.pgadmin.org/> DB management tool, comes with Postgres installation typically
+
 <https://dbeaver.io/> DB management tool
+
 <https://tableplus.com/> Simpler DB management tool, less features available overall and limited functionality without paying for it
 
 <https://github.com/graphile/migrate> I have tried several migration tools. This is the best one I've found for getting started, even for growing companies!
@@ -570,3 +593,8 @@ Column ordering matters
 
 <https://dba.stackexchange.com/questions/183119/modelling-a-database-structure-for-multiple-user-types-and-their-contact-informa> (user types and contact info)
 
+## Credits
+
+Jasper for the cool Haskell program that makes this presentation <https://github.com/jaspervdj/patat>
+
+Cool Retro Term for being the terminal that I ran this presentation in to make it look retro! <https://github.com/Swordfish90/cool-retro-term>
