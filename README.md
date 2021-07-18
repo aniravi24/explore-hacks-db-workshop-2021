@@ -519,6 +519,8 @@ Installing and Running Metabase:
 
 ## Terminology
 
+<https://www.youtube.com/watch?v=y1tcbhWLiUM> Basics of DB design
+
 <http://putham.com/post/2/What+is+DDL,+DML,+DCL+and+TCL+in+sql+,+oracle+,+postgresql?>
 
 <https://www.sisense.com/blog/sql-query-order-of-operations/> Explains which order the keywords are evaluated in.
@@ -578,7 +580,7 @@ Installing and Running Metabase:
 
 <https://github.com/dhamaniasad/awesome-postgres>
 
-<https://www.graphile.org/postgraphile/> Generate GraphQL API on top of PostgreSQL database
+<https://www.graphile.org/postgraphile/> Generate GraphQL API on top of PostgreSQL database (I learned a lot about SQL by reading the postgraphile docs!)
 
 <https://hasura.io/> Generate GraphQL API on top of PostgreSQL database
 
