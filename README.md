@@ -570,11 +570,11 @@ Installing and Running Metabase:
 
 ## Tools/Software
 
-<https://www.pgadmin.org/> DB management tool, comes with Postgres installation typically
+<https://www.pgadmin.org/> DB management tool, comes with Postgres installation typically and the defacto tool
 
-<https://dbeaver.io/> DB management tool
+<https://dbeaver.io/> DB management tool, one I've enjoyed using and lots of functionality available
 
-<https://tableplus.com/> Simpler DB management tool, less features available overall and limited functionality without paying for it
+<https://tableplus.com/> Simpler DB management tool with better UI/UX and easier to use for most developers, but less features available overall and limited functionality without paying for it.
 
 <https://github.com/graphile/migrate> I have tried several migration tools. This is the best one I've found for getting started, even for growing companies!
 
@@ -602,6 +602,10 @@ Column ordering matters
 <https://www.2ndquadrant.com/en/blog/on-rocks-and-sand/>
 
 <https://dba.stackexchange.com/questions/183119/modelling-a-database-structure-for-multiple-user-types-and-their-contact-informa> (user types and contact info)
+
+<https://aniravi.com/posts/move-off-orms-in-typescript.html> My blog post on ORMs in JS/TS
+
+<https://aniravi.com/posts/your-database-is-all-your-are.html> My blog post on databases
 
 ## Credits
 
