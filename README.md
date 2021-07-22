@@ -517,6 +517,8 @@ Installing and Running Metabase:
 
 <https://www.postgresqltutorial.com/> Hands down one of my favorite resources, you can go step by step and learn a ton. It's a good reference and will get you far with the basics.
 
+<https://hasura.io/learn/database/postgresql/introduction/> Good introduction into Postgres, covers more of the basics than we could in this workshop!
+
 ## Terminology
 
 <https://www.youtube.com/watch?v=y1tcbhWLiUM> Basics of DB design
