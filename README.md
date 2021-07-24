@@ -488,7 +488,7 @@ Want to figure out where this is? What does this query do?
 SELECT name, a.address_line_1
 FROM property p
 JOIN address a ON p.address_id=a.id
-ORDER BY p.geom <-> ST_SetSRID(ST_MakePoint(-112.073389,33.4457415),4326)
+ORDER BY a.geom <-> ST_SetSRID(ST_MakePoint(-112.073389,33.4457415),4326)
 LIMIT 10;
 ~~~~~
 
