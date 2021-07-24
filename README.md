@@ -226,7 +226,7 @@ Some popular hashing algorithms are _BCrypt_ and _Argon2_. Most languages have l
 The syntax is SELECT <identifiers> FROM <table_name>.
 
 ~~~~~{.sql .sql_eval}
-SELECT * from users;
+SELECT * FROM users;
 ~~~~~
 
 ## Let's update all the users!
@@ -255,7 +255,7 @@ It helps SQL figure out what conditions a row has to meet before it will show it
 ## Let's select only the user with id 1.
 
 ~~~~~{.sql .sql_eval}
-SELECT * from users WHERE id = 1;
+SELECT * FROM users WHERE id = 1;
 ~~~~~
 
 ## Let's only update the user with id 1.
