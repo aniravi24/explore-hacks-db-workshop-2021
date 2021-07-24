@@ -609,6 +609,8 @@ Column ordering matters
 
 <https://aniravi.com/posts/your-database-is-all-your-are.html> My blog post on databases
 
+<https://www.slideshare.net/billkarwin/sql-antipatterns-strike-back> SQL anti-patterns and how to do complex things (e.g. model trees or hierarchies) in a "SQL" way
+
 ## Credits
 
 Jasper for the cool Haskell program that makes this presentation <https://github.com/jaspervdj/patat>
