@@ -399,7 +399,7 @@ The way we'd query this out would be through what's called a _JOIN_, one of the 
 
 ## Unfortunately covering JOINs will take a while.
 
-There are many different types of joins, to join tables in different ways. I'd
+There are many different types of joins available.
 
 Here's a small taste of what you can do.
 
